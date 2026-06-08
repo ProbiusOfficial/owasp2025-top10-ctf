@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>限时秒杀</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .flash-sale { background: #ff4444; color: white; padding: 20px; border-radius: 10px; text-align: center; }
+        .btn { background: #ff8800; color: white; border: none; padding: 15px 30px; font-size: 18px; cursor: pointer; border-radius: 5px; margin: 10px; }
+        .btn:hover { background: #ff6600; }
+        .info { margin: 20px 0; padding: 15px; background: #f0f0f0; border-radius: 5px; }
+        #result { margin-top: 20px; padding: 15px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="flash-sale">
+        <h1>⚡ 限时秒杀</h1>
+        <p>珍贵Flag商品，仅剩 <span id="stock">?</span> 件！</p>
+    </div>
+
+    <div class="info">
+        <h3>秒杀流程</h3>
+        <ol>
+            <li>检查库存</li>
+            <li>创建订单</li>
+            <li>支付订单</li>
+        </ol>
+    </div>
+
+    <button class="btn" onclick="seckill()">立即秒杀</button>
+    <div id="result"></div>
+
+    <script>
+        async function loadStock() {
+            const res = await fetch('/api/stock');
+            const data = await res.json();
+            document.getElementById('stock').textContent = data.quantity;
+        }
+
+        async function seckill() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p>正在秒杀...</p>';
+
+            try {
+                const checkRes = await fetch('/api/check-stock', {method: 'POST'});
+                const checkData = await checkRes.json();
+                if (!checkData.available) {
+                    resultDiv.innerHTML = '<p style="color:red">库存不足！</p>';
+                    return;
+                }
+
+                const orderRes = await fetch('/api/create-order', {method: 'POST'});
+                const orderData = await orderRes.json();
+                if (!orderData.success) {
+                    resultDiv.innerHTML = '<p style="color:red">' + orderData.message + '</p>';
+                    return;
+                }
+
+                const payRes = await fetch('/api/pay', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({order_no: orderData.order_no})
+                });
+                const payData = await payRes.json();
+
+                resultDiv.innerHTML = '<p style="color:green">' + payData.message +
+                    (payData.flag ? '<br><br><b>Flag: ' + payData.flag + '</b>' : '') + '</p>';
+                loadStock();
+            } catch (e) {
+                resultDiv.innerHTML = '<p style="color:red">出错: ' + e.message + '</p>';
+            }
+        }
+
+        loadStock();
+    </script>
+</body>
+</html>

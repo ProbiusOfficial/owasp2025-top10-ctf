@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  a02-hard:
+    build: .
+    ports:
+      - "8082:80"
+    environment:
+      - DASFLAG=flag{hard_xxe_injection_2025_test}
+    restart: unless-stopped

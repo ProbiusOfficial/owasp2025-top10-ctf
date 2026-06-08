@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  a02-medium:
+    build: .
+    ports:
+      - "8081:80"
+    environment:
+      - DASFLAG=flag{medium_xss_bypass_2025_test}
+    restart: unless-stopped

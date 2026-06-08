@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  a07-easy:
+    build: .
+    ports:
+      - "8087:80"
+    environment:
+      - FLAG=flag{test_flag_for_local_debug}

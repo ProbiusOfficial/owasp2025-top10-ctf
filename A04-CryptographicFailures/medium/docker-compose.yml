@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  a04-medium:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      - FLAG=flag{medium_cbc_bit_flipping}
+    container_name: a04-medium

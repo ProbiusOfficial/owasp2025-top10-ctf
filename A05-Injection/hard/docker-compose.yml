@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  a05-hard-cmd:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8083:80"
+    environment:
+      - FLAG=flag{hard_cmd_injection_bypass}

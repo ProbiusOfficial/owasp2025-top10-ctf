@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  a05-medium-ssti:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8082:80"
+    environment:
+      - FLAG=flag{medium_jinja2_ssti_bypass}

@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  a10-easy:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      - FLAG=flag{local_test_flag}
+    container_name: a10_exception_easy

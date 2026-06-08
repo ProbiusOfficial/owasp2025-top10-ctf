@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  a02-easy:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      - DASFLAG=flag{easy_git_leak_2025_test}
+    restart: unless-stopped

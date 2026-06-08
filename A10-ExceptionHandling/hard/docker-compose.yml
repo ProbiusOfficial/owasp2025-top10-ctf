@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  a10-hard:
+    build: .
+    ports:
+      - "8082:80"
+    environment:
+      - FLAG=flag{local_test_flag_hard}
+    container_name: a10_exception_hard

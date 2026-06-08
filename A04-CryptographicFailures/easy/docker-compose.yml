@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  a04-easy:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      - FLAG=flag{easy_weak_random_token}
+    container_name: a04-easy

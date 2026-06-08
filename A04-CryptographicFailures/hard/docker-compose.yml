@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  a04-hard:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      - FLAG=flag{hard_jwt_algo_confusion}
+    container_name: a04-hard

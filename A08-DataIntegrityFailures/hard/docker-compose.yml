@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  a08-hard:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      - DASFLAG=flag{test_local_flag_hard}
+    restart: unless-stopped

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>我的笔记</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .note { border: 1px solid #ddd; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        a { text-decoration: none; color: #4CAF50; }
+    </style>
+</head>
+<body>
+    <h1>📒 我的笔记</h1>
+    <div id="notes"></div>
+    <script>
+        fetch('/api/my-notes').then(r => r.json()).then(data => {
+            document.getElementById('notes').innerHTML = data.notes.map(n =>
+                `<div class="note"><a href="/api/note/${n.id}">${n.title}</a></div>`
+            ).join('');
+        });
+    </script>
+</body>
+</html>
