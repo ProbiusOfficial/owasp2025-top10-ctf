@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY src/ /app/
 
-RUN pip install --no-cache-dir flask
+RUN pip install --no-cache-dir flask lxml
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh

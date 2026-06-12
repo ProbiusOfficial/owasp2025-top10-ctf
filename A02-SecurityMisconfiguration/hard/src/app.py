@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template_string, jsonify
-import xml.etree.ElementTree as ET
+from lxml import etree as ET
 import io
 import os
 
@@ -141,9 +141,9 @@ def parse_xml():
                 except:
                     xml_text = xml_data.decode('utf-8', errors='replace')
         
-        # 使用 xml.etree.ElementTree 解析 - 默认解析外部实体（Python < 3.8 默认行为）
-        # 为了兼容性和漏洞可利用性，使用原生解析
-        tree = ET.parse(io.StringIO(xml_text))
+        # 使用 lxml 解析并允许解析外部实体，以模拟存在安全 misconfiguration 的解析器
+        parser = ET.XMLParser(resolve_entities=True, no_network=False)
+        tree = ET.parse(io.StringIO(xml_text), parser)
         root = tree.getroot()
         
         # 提取文本内容
